@@ -7,3 +7,4 @@
 - [string详解](https://github.com/caxich/CSharpInterviewBook/blob/master/CSharpInterviewBook/Part1/string.md)
 - [面向对象基础1](https://github.com/caxich/CSharpInterviewBook/blob/master/CSharpInterviewBook/Part1/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80.md)
 - [面向对象基础2](https://github.com/caxich/CSharpInterviewBook/blob/master/CSharpInterviewBook/Part1/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%802.md)
+- [GC与内存管理](https://github.com/caxich/CSharpInterviewBook/blob/master/CSharpInterviewBook/Part1/GC%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.md)
