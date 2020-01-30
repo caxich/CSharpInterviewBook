@@ -121,3 +121,32 @@ select Id,UserId,orderTime,ROW_NUMBER() over(partition by UserId order by TotalP
  )
  select * from baseDate where rowIndex=1
 ```
+
+#### 如何避免全表扫描
+1. **应尽量避免在where子句中对字段进行null值判断**
+>创建表时NULL是默认值，但大多数时候应该使用NOT NULL，或者使用一个特殊的值，如0，-1作为默认值。null值无法用作索引，任何包含null值的列都将不会被包含在索引中。即使索引有多列这样的情况下，只要这些列中有一列含有null，该列就会从索引中排除。任何在where子句中使用is null或is not null的语句优化器是不允许使用索引的。
+2. **应尽量避免在where 子句中使用!=或<>操作符以及全模糊查询（%p%）**
+>MySQL只有对以下操作符才使用索引：<，<=，=，>，>=，BETWEEN，IN，以及某些时候的LIKE。 可以在LIKE操作中使用索引的情形是指另一个操作数不是以通配符（%或者_）开头的情形。例如，“SELECT id FROM t WHERE col LIKE 'Mich%';”这个查询将使用索引，但“SELECT id FROM t WHERE col  LIKE '%ike';”这个查询不会使用索引。
+3. **应尽量避免在where子句中使用or来连接条件**
+>如：select id from t where num=10 or num=20  
+    可以这样查询：select id from t where num=10 union all select id from t where num=20
+4. **慎用in 和not in，用exists 代替in**
+>如：
+   select id from t where num in(1,2,3)  
+   对于连续的数值，能用between 就不要用in 了：
+   select id from t where num between 1 and 3  
+select num from a where num in(select num from b)  
+用下面的语句替换：
+select num from a where exists(select 1 from b where num=a.num)
+5. **应尽量避免在where 子句中对字段进行表达式操作**
+>如：
+  select id from t where num/2=100  
+应改为:
+ select id from t where num=100*2
+6. **应尽量避免在where子句中对字段进行函数操作**
+>如：
+select id from t where substring(name,1,3)='abc'--name  
+select id from t where datediff(day,createdate,'2005-11-30')=0--‘2005-11-30’   
+应改为:
+select id from t where name like 'abc%'  
+select id from t where createdate>='2005-11-30' and createdate<'2005-12-1'
