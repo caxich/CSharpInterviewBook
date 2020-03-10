@@ -122,6 +122,22 @@ select Id,UserId,orderTime,ROW_NUMBER() over(partition by UserId order by TotalP
  select * from baseDate where rowIndex=1
 ```
 
+#### T-SQL流程控制语句
+ **while循环**
+```
+declare @i int, @temp int;
+set @i = 0;
+select @temp = MAX(Id) from TMS_Enterprise;
+while(@i <= @temp)
+begin
+	set @i = @i + 1;
+	if exists(select * from TMS_Enterprise where Id = @i)
+		select * from TMS_Enterprise where Id = @i;
+	else
+		select 'ID为'+CONVERT(varchar(20),@i)+'记录不存在';
+end
+```
+
 #### 如何避免全表扫描
 1. **应尽量避免在where子句中对字段进行null值判断**
 >创建表时NULL是默认值，但大多数时候应该使用NOT NULL，或者使用一个特殊的值，如0，-1作为默认值。null值无法用作索引，任何包含null值的列都将不会被包含在索引中。即使索引有多列这样的情况下，只要这些列中有一列含有null，该列就会从索引中排除。任何在where子句中使用is null或is not null的语句优化器是不允许使用索引的。
