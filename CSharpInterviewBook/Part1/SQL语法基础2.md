@@ -47,6 +47,20 @@ select a.* from cte1 a, cte2 b, cte3 c where a.id = b.id and a.id = c.id
 ```
 ---
 
+#### 递归查询
+```
+with 
+a 
+as
+(
+select * from TMS_Menus where ParentId = 0
+union all
+select b.* from TMS_Menus b inner join a on b.ParentId = a.Id
+)
+select * from a
+```
+---
+
 #### 时间相关函数
 - **datepart()**
 ```
