@@ -1,4 +1,4 @@
-### 值类型、引用类型、装箱与拆箱
+### C#面试要点（1）值类型、引用类型、装箱与拆箱
 ---
 #### 值类型和引用类型的区别  
 -  **值类型** 
@@ -14,7 +14,6 @@
     枚举 | enum
     结构 | struct
 - **引用类型**
-
     描述 | 类型
     ---|---
     类 | class,object,string
@@ -65,6 +64,10 @@
         ```
         可知list在执行Add方法时做了隐式拆箱，造成了性能的损耗。
 
-
+---
+#### HashTable和Dictionary的区别
+- HashTable不支持泛型，而Dictionary支持泛型。比如Dictionary<string, string>是一个泛型。
+- Hashtable的元素属于Object类型，存取值类型数据需要装箱拆箱，造成一定的性能损耗。
+-  Hashtable 允许单线程写入, 多线程读取, 对 Hashtable 进一步调用 Synchronized() 方法可以获得完全线程安全的类型。而 Dictionary 非线程安全, 必须人为使用 lock 语句进行保护, 效率大减。
 
 
